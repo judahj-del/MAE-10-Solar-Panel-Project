@@ -1,1 +1,43 @@
+% Use fprintf directly for multiline text or use newline character
+fprintf(['Welcome to our Solar Energy Optimization Tool.\n' ...
+    'Using real world solar data and engineering calculations,\n' ...
+    'this program evaluates energy production and recommends the\n' ...
+    'most efficient solar panel configuration based on your\n' ...
+    'exact location, budget, and available space.\n\n']);
+
+
+% Read input as string ('s') to allow validation
+Lat_str = input('Please input your Lattitude (Decimal Degrees): ', 's');
+Lat = str2double(Lat_str);
+
+% Check if invalid (isnan) or empty
+while isnan(Lat) || isempty(Lat)
+    Lat_str = input(sprintf('%s is not a valid number. Please input a numeric Lattitude: ', Lat_str), 's');
+    Lat = str2double(Lat_str);
+end
+
+% Longitude Input & Validation
+Lon_str = input('Please input your Longitude (Decimal Degrees): ', 's');
+Lon = str2double(Lon_str);
+
+while isnan(Lon) || isempty(Lon)
+    Lon_str = input(sprintf('%s is not a valid number. Please input a numeric Longitude: ', Lon_str), 's');
+    Lon = str2double(Lon_str);
+end
+
+% State Input
+State = input('Please input your State: ', 's');
+
+% Confirm it
+fprintf('\nLocation set: Lat %.2f, Lon %.2f, State: %s\n', Lat, Lon, State);
+
+apiKey = "eUJcZnj1dgevasrCDhVXKBTzandkwZgSdsag0RTm";
+
+url = sprintf(['https://developer.nlr.gov/api/solar/solar_resource/v1.json?', ...
+               'api_key=%s&lat=%f&lon=%f'], ...
+               apiKey, lat, lon);
+
+api_call = webread(url);
+
+disp(api_call.outputs.avg_dni.monthly)
 

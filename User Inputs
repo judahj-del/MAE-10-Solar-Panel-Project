@@ -1,1 +1,32 @@
+% Use fprintf directly for multiline text or use newline character
+fprintf(['Welcome to our Solar Energy Optimization Tool.\n' ...
+    'Using real world solar data and engineering calculations,\n' ...
+    'this program evaluates energy production and recommends the\n' ...
+    'most efficient solar panel configuration based on your\n' ...
+    'exact location, budget, and available space.\n\n']);
 
+
+% Read input as string ('s') to allow validation
+Lattitude_str = input('Please input your Lattitude (Decimal Degrees): ', 's');
+Lattitude = str2double(Lattitude_str);
+
+% Check if invalid (isnan) or empty
+while isnan(Lattitude) || isempty(Lattitude)
+    Lattitude_str = input(sprintf('%s is not a valid number. Please input a numeric Lattitude: ', Lattitude_str), 's');
+    Lattitude = str2double(Lattitude_str);
+end
+
+% Longitude Input & Validation
+Longitude_str = input('Please input your Longitude (Decimal Degrees): ', 's');
+Longitude = str2double(Longitude_str);
+
+while isnan(Longitude) || isempty(Longitude)
+    Longitude_str = input(sprintf('%s is not a valid number. Please input a numeric Longitude: ', Longitude_str), 's');
+    Longitude = str2double(Longitude_str);
+end
+
+% State Input
+State = input('Please input your State: ', 's');
+
+% Confirm it
+fprintf('\nLocation set: Lat %.2f, Lon %.2f, State: %s\n', Lattitude, Longitude, State);

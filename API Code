@@ -1,1 +1,12 @@
+lat = 33.68;
+lon = -117.83;
 
+apiKey = "INSERT YOUR OWN API KEY HERE";
+
+url = sprintf(['https://developer.nlr.gov/api/solar/solar_resource/v1.json?', ...
+               'api_key=%s&lat=%f&lon=%f'], ...
+               apiKey, lat, lon);
+
+api_call = webread(url);
+
+disp(api_call)

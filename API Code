@@ -5,7 +5,7 @@ apiKey = "INSERT YOUR OWN API KEY HERE";
 
 url = sprintf(['https://developer.nlr.gov/api/solar/solar_resource/v1.json?', ...
                'api_key=%s&lat=%f&lon=%f'], ...
-               apiKey, lat, lon);
+               apiKey, Lat, Lon);
 
 api_call = webread(url);
 

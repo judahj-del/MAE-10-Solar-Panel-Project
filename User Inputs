@@ -7,7 +7,7 @@ fprintf(['Welcome to our Solar Energy Optimization Tool.\n' ...
 
 
 % Read input as string ('s') to allow validation
-Lat_str = input('Please input your Lattitude (Decimal Degrees): ', 's');
+Lat_str = input('Please input your Lattitude: ', 's');
 Lat = str2double(Lat_str);
 
 % Check if invalid (isnan) or empty
@@ -17,7 +17,7 @@ while isnan(Lat) || isempty(Lat)
 end
 
 % Longitude Input & Validation
-Lon_str = input('Please input your Longitude (Decimal Degrees): ', 's');
+Lon_str = input('Please input your Longitude: ', 's');
 Lon = str2double(Lon_str);
 
 while isnan(Lon) || isempty(Lon)

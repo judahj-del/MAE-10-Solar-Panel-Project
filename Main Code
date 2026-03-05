@@ -26,10 +26,10 @@ while isnan(Lon) || isempty(Lon)
 end
 
 % State Input
-State = input('Please input your State: ', 's');
+state = input('Please input your State: ', 's');
 
 % Confirm it
-fprintf('\nLocation set: Lat %.2f, Lon %.2f, State: %s\n', Lat, Lon, State);
+fprintf('\nLocation set: Lat %.2f, Lon %.2f, State: %s\n', Lat, Lon, state);
 
 apiKey = "eUJcZnj1dgevasrCDhVXKBTzandkwZgSdsag0RTm";
 
@@ -40,4 +40,15 @@ url = sprintf(['https://developer.nlr.gov/api/solar/solar_resource/v1.json?', ..
 api_call = webread(url);
 
 disp(api_call.outputs.avg_dni.monthly)
+
+%%Calculating Number of Panels 
+
+panel_rating = 400 ; % Watts
+
+cost_per_panel = 
+
+
+
+
+
 

@@ -41,11 +41,25 @@ api_call = webread(url);
 
 disp(api_call.outputs.avg_dni.monthly)
 
-%%Calculating Number of Panels 
+%%Calculating Number of Panels
 
-panel_rating = 400 ; % Watts
+roof_size = input('Please provide the area of your roof (m^2): ') ; %requires user to input a roof area
+while roof_size <= 2 
+    roof_size = input('You have entered too small of a roof size, please enter a new area: ')
 
-cost_per_panel = 
+budget =  input('Please enter your budget for this project: ') ; %requires user to input a budget greater than 0
+while budget < 0 
+    budget = input('You have entered an invalid value for budget, must be a positive number. Please enter a new value: ')
+
+panel_area = 2 ; %meters squared
+
+panel_rating = 400 ; % Watts, We assume that the most efficient type of panel is a 2 m^2 area panel of 400W rating
+
+cost_per_panel = Panel_cost_calc(state); %calculates the cost of each panel depending on the state
+
+num_panels = calculateMaxPanels(roof_size, panel_area, budget, cost_per_panel)
+
+
 
 
 

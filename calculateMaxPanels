@@ -1,0 +1,9 @@
+function max_panels = calculateMaxPanels(roof_size, panel_area, budget, cost_per_panel)
+
+budget_max = budget / cost_per_panel;
+
+max_panels = roof_size / panel_area;
+
+if max_panels > budget_max
+    max_panels = budget_max;
+end

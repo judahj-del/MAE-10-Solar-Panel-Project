@@ -1,0 +1,12 @@
+function annual_production = calculateEnergyProduction(panels, irradiance, panel_wattage, system_efficiency)
+
+% panels (#)
+% irradiance (W/m^2)
+% panel_wattage (W)
+% system_efficiency (%)
+
+% (Wh/day)
+daily_production = panels * panel_wattage * irradiance * system_efficiency;
+
+% (kWh/yaer)
+annual_production = daily_production * 365 / 1000;

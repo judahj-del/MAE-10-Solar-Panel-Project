@@ -49,15 +49,25 @@ while roof_size <= 2
 
 budget =  input('Please enter your budget for this project: ') ; %requires user to input a budget greater than 0
 while budget < 0 
-    budget = input('You have entered an invalid value for budget, must be a positive number. Please enter a new value: ')
+    budget = input('You have entered an invalid value for budget, must be a positive number. Please enter a new value: ') ;
 
 panel_area = 2 ; %meters squared
 
 panel_rating = 400 ; % Watts, We assume that the most efficient type of panel is a 2 m^2 area panel of 400W rating
 
-cost_per_panel = Panel_cost_calc(state); %calculates the cost of each panel depending on the state
+cost_per_panel = Panel_cost_calc(state) ; %calculates the cost of each panel depending on the state
 
-num_panels = calculateMaxPanels(roof_size, panel_area, budget, cost_per_panel)
+num_panels = calculateMaxPanels(roof_size, panel_area, budget, cost_per_panel) ;
+
+%%Energy Production
+
+system_efficiency = .2 ; %avg efficiency of 400W panels is 20%
+
+annual_production = calculateEnergyProduction(num_panels, irradiance, panel_rating, system_efficiency) ;
+
+%%Cost Breakdown of System
+
+
 
 
 

@@ -1,0 +1,7 @@
+function [annual_savings, energy_used] = ...
+    calculateSavings(annual_production, electricity_usage, electricity_price)
+
+energy_used = min(annual_production, electricity_usage);
+
+annual_savings = electricity_usage * electricity_price;
+end

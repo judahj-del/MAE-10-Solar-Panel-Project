@@ -287,6 +287,7 @@ system_efficiency = .2;
 % Calculate annual energy production
 annual_production = calculateEnergyProduction(num_panels, irradiance, panel_rating, system_efficiency);
 annual_Savings = annual_production*.19;
+Total_spent = num_panels*cost_per_panel;
 %% Cost Breakdown of System
 
-fprintf("\n--------Savings Report---------\n\nAnnual Energy Production: %.2f Kilowatts.\nNumber of Panels: %d\nAnnual Savings: $%.2f\n", annual_production,num_panels, annual_Savings)
+fprintf("\n--------Savings Report---------\n\nTotal Spent: %.2f\nAnnual Energy Production: %.2f Kilowatts.\nNumber of Panels: %d\nAnnual Savings: $%.2f\n",Total_spent, annual_production,num_panels, annual_Savings)

@@ -1,1 +1,9 @@
-
+%% Plotting
+m = api_call.outputs.avg_dni.monthly;
+x = 1:12;
+y = [m.jan m.feb m.mar m.apr m.may m.jun ...
+     m.jul m.aug m.sep m.oct m.nov m.dec];
+plot(x,y)
+title("Solar Irradiance Monthly")
+xlabel("Months")
+ylabel("Avg Solar Irradiance")

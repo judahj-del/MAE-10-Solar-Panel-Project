@@ -7,7 +7,6 @@
 % 5. Calculates the maximum number of panels allowed by roof size and budget
 % 6. Estimates annual energy production
 
-
 %% Welcome Message
 % Display a multiline introduction to the user
 fprintf(['Welcome to our Solar Energy Optimization Tool.\n' ...
@@ -16,12 +15,10 @@ fprintf(['Welcome to our Solar Energy Optimization Tool.\n' ...
     'most efficient solar panel configuration based on your\n' ...
     'exact location, budget, and available space.\n\n']);
 
-
 %% User Input: Latitude
 % Read latitude as a string first so it can be validated
 Lat_str = input('Please input your Lattitude (Decimal Degrees): ', 's');
 Lat = str2double(Lat_str);
-
 
 % Keep asking until the input is a valid number
 while isnan(Lat) || isempty(Lat)
@@ -29,12 +26,10 @@ while isnan(Lat) || isempty(Lat)
     Lat = str2double(Lat_str);
 end
 
-
 %% User Input: Longitude
 % Read longitude as a string first so it can be validated
 Lon_str = input('Please input your Longitude (Decimal Degrees): ', 's');
 Lon = str2double(Lon_str);
-
 
 % Keep asking until the input is a valid number
 while isnan(Lon) || isempty(Lon)
@@ -42,172 +37,169 @@ while isnan(Lon) || isempty(Lon)
     Lon = str2double(Lon_str);
 end
 
-
-%% User Input: State
-% Ask the user for their state
-state = input('Please input your State: ', 's');
-
-
-% Confirm the location information entered by the user
-fprintf('\nLocation set: Lat %.2f, Lon %.2f, State: %s\n', Lat, Lon, state);
-
-
 %% Panel Cost Function
 % This function calculates the cost per panel in each state.
 % For this project, each panel is assumed to be rated at 400 W.
 function cost_per_panel = Panel_cost_calc(state)
     if state == "California"
-    cost_watt = 2.8;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Arizona"
-    cost_watt = 2.65;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Nevada"
-    cost_watt = 2.7;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Colorado"
-    cost_watt = 2.9;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Oregon"
-    cost_watt = 2.9;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Washington"
-    cost_watt = 2.85;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Alaska"
-    cost_watt = 3.2;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Hawaii"
-    cost_watt = 3.35;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Idaho"
-    cost_watt = 2.9;
-    cost_per_panel = cost_watt * 400;
-elseif state == "New Mexico"
-    cost_watt = 2.75;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Montana"
-    cost_watt = 3.05;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Utah"
-    cost_watt = 2.75;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Wyoming"
-    cost_watt = 2.95;
-    cost_per_panel = cost_watt * 400;
-elseif state == "North Dakota"
-    cost_watt = 2.95;
-    cost_per_panel = cost_watt * 400;
-elseif state == "South Dakota"
-    cost_watt = 2.9;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Texas"
-    cost_watt = 2.6;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Oklahoma"
-    cost_watt = 2.8;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Nebraska"
-    cost_watt = 2.95;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Iowa"
-    cost_watt = 2.95;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Illinois"
-    cost_watt = 3.05;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Indiana"
-    cost_watt = 2.95;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Wisconsin"
-    cost_watt = 3;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Minnesota"
-    cost_watt = 3.05;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Ohio"
-    cost_watt = 2.9;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Virginia"
-    cost_watt = 2.85;
-    cost_per_panel = cost_watt * 400;
-elseif state == "West Virginia"
-    cost_watt = 2.85;
-    cost_per_panel = cost_watt * 400;
-elseif state == "North Carolina"
-    cost_watt = 2.75;
-    cost_per_panel = cost_watt * 400;
-elseif state == "South Carolina"
-    cost_watt = 2.75;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Georgia"
-    cost_watt = 2.8;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Florida"
-    cost_watt = 2.65;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Kentucky"
-    cost_watt = 2.8;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Tennessee"
-    cost_watt = 2.85;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Massachusetts"
-    cost_watt = 3.15;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Louisianna"
-    cost_watt = 2.9;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Mississippi"
-    cost_watt = 2.9;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Alabama"
-    cost_watt = 2.85;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Connecticut"
-    cost_watt = 3.1;
-    cost_per_panel = cost_watt * 400;
-elseif state == "New Jersey"
-    cost_watt = 2.95;
-    cost_per_panel = cost_watt * 400;
-elseif state == "New York"
-    cost_watt = 3.1;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Maine"
-    cost_watt = 3;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Delaware"
-    cost_watt = 2.95;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Michigan"
-    cost_watt = 3;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Maryland"
-    cost_watt = 3;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Rhode Island"
-    cost_watt = 3.1;
-    cost_per_panel = cost_watt * 400;
-elseif state == "New Hampshire"
-    cost_watt = 3.1;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Vermont"
-    cost_watt = 3.1;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Kansas"
-    cost_watt = 2.85;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Pennsylvania"
-    cost_watt = 2.95;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Arkansas"
-    cost_watt = 2.9;
-    cost_per_panel = cost_watt * 400;
-elseif state == "Missouri"
-    cost_watt = 2.85;
-    cost_per_panel = cost_watt * 400;
+        cost_watt = 2.8;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Arizona"
+        cost_watt = 2.65;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Nevada"
+        cost_watt = 2.7;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Colorado"
+        cost_watt = 2.9;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Oregon"
+        cost_watt = 2.9;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Washington"
+        cost_watt = 2.85;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Alaska"
+        cost_watt = 3.2;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Hawaii"
+        cost_watt = 3.35;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Idaho"
+        cost_watt = 2.9;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "New Mexico"
+        cost_watt = 2.75;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Montana"
+        cost_watt = 3.05;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Utah"
+        cost_watt = 2.75;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Wyoming"
+        cost_watt = 2.95;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "North Dakota"
+        cost_watt = 2.95;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "South Dakota"
+        cost_watt = 2.9;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Texas"
+        cost_watt = 2.6;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Oklahoma"
+        cost_watt = 2.8;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Nebraska"
+        cost_watt = 2.95;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Iowa"
+        cost_watt = 2.95;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Illinois"
+        cost_watt = 3.05;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Indiana"
+        cost_watt = 2.95;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Wisconsin"
+        cost_watt = 3;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Minnesota"
+        cost_watt = 3.05;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Ohio"
+        cost_watt = 2.9;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Virginia"
+        cost_watt = 2.85;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "West Virginia"
+        cost_watt = 2.85;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "North Carolina"
+        cost_watt = 2.75;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "South Carolina"
+        cost_watt = 2.75;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Georgia"
+        cost_watt = 2.8;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Florida"
+        cost_watt = 2.65;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Kentucky"
+        cost_watt = 2.8;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Tennessee"
+        cost_watt = 2.85;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Massachusetts"
+        cost_watt = 3.15;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Louisianna"
+        cost_watt = 2.9;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Mississippi"
+        cost_watt = 2.9;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Alabama"
+        cost_watt = 2.85;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Connecticut"
+        cost_watt = 3.1;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "New Jersey"
+        cost_watt = 2.95;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "New York"
+        cost_watt = 3.1;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Maine"
+        cost_watt = 3;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Delaware"
+        cost_watt = 2.95;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Michigan"
+        cost_watt = 3;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Maryland"
+        cost_watt = 3;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Rhode Island"
+        cost_watt = 3.1;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "New Hampshire"
+        cost_watt = 3.1;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Vermont"
+        cost_watt = 3.1;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Kansas"
+        cost_watt = 2.85;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Pennsylvania"
+        cost_watt = 2.95;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Arkansas"
+        cost_watt = 2.9;
+        cost_per_panel = cost_watt * 400;
+    elseif state == "Missouri"
+        cost_watt = 2.85;
+        cost_per_panel = cost_watt * 400;
+    end
 end
 
+%% User Input: State
+% Ask the user for their state
+state = input('Please input your State: ', 's');
+
+% Confirm the location information entered by the user
+fprintf('\nLocation set: Lat %.2f, Lon %.2f, State: %s\n', Lat, Lon, state);
 
 %% API Setup and Solar Data Request
 % API key for solar resource data
@@ -218,15 +210,12 @@ url = sprintf(['https://developer.nlr.gov/api/solar/solar_resource/v1.json?', ..
                'api_key=%s&lat=%f&lon=%f'], ...
                apiKey, Lat, Lon);
 
-
 % Retrieve solar data from the API
 api_call = webread(url);
-
 
 %% Calculating Number of Panels
 % Ask the user for roof size in square meters
 roof_size = input('Please provide the area of your roof (m^2): ');
-
 
 % Validate roof size
 while roof_size <= 2
@@ -299,8 +288,7 @@ system_efficiency = .2;
 annual_production = calculateEnergyProduction(num_panels, irradiance, panel_rating, system_efficiency);
 annual_Savings = annual_production*.19;
 Total_spent = num_panels*cost_per_panel;
-
-
+PBP = Total_spent/annual_Savings;
 %% Plotting
 m = api_call.outputs.avg_dni.monthly;
 x = 1:12;
@@ -322,7 +310,6 @@ for i = 1:length(x)
     text(x(i), y(i) + 0.05, sprintf('%.2f', y(i)), ...
         'HorizontalAlignment', 'center', 'FontSize', 9)
 end
-
 %% Cost Breakdown of System
 
 fprintf("\n--------Savings Report---------\n\nTotal Spent: %.2f\nAnnual Energy Production: %.2f Kilowatts.\nNumber of Panels: %d\nAnnual Savings: $%.2f\n",Total_spent, annual_production,num_panels, annual_Savings)

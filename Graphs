@@ -3,7 +3,19 @@ m = api_call.outputs.avg_dni.monthly;
 x = 1:12;
 y = [m.jan m.feb m.mar m.apr m.may m.jun ...
      m.jul m.aug m.sep m.oct m.nov m.dec];
-plot(x,y)
-title("Solar Irradiance Monthly")
-xlabel("Months")
-ylabel("Avg Solar Irradiance")
+
+figure
+plot(x, y, '-o', 'LineWidth', 2, 'MarkerSize', 7)
+grid on
+xticks(1:12)
+xticklabels({'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'})
+title('Average Monthly Solar Irradiance')
+xlabel('Month')
+ylabel('Avg Solar Irradiance (kWh/m^2/day)')
+xlim([1 12])
+
+% Add value labels above each point
+for i = 1:length(x)
+    text(x(i), y(i) + 0.05, sprintf('%.2f', y(i)), ...
+        'HorizontalAlignment', 'center', 'FontSize', 9)
+end

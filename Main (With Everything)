@@ -299,6 +299,30 @@ system_efficiency = .2;
 annual_production = calculateEnergyProduction(num_panels, irradiance, panel_rating, system_efficiency);
 annual_Savings = annual_production*.19;
 Total_spent = num_panels*cost_per_panel;
+
+
+%% Plotting
+m = api_call.outputs.avg_dni.monthly;
+x = 1:12;
+y = [m.jan m.feb m.mar m.apr m.may m.jun ...
+     m.jul m.aug m.sep m.oct m.nov m.dec];
+
+figure
+plot(x, y, '-o', 'LineWidth', 2, 'MarkerSize', 7)
+grid on
+xticks(1:12)
+xticklabels({'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'})
+title('Average Monthly Solar Irradiance')
+xlabel('Month')
+ylabel('Avg Solar Irradiance (kWh/m^2/day)')
+xlim([1 12])
+
+% Add value labels above each point
+for i = 1:length(x)
+    text(x(i), y(i) + 0.05, sprintf('%.2f', y(i)), ...
+        'HorizontalAlignment', 'center', 'FontSize', 9)
+end
+
 %% Cost Breakdown of System
 
 fprintf("\n--------Savings Report---------\n\nTotal Spent: %.2f\nAnnual Energy Production: %.2f Kilowatts.\nNumber of Panels: %d\nAnnual Savings: $%.2f\n",Total_spent, annual_production,num_panels, annual_Savings)

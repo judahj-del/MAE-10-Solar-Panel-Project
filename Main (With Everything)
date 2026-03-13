@@ -282,7 +282,8 @@ end
 
 %% Energy Production Calculation
 % Average efficiency of 400 W panels
-system_efficiency = .2;
+system_efficiency = .8;
+panel_efficiency = .2;
 
 % Calculate annual energy production
 annual_production = calculateEnergyProduction(num_panels, irradiance, panel_rating, system_efficiency);
@@ -309,6 +310,31 @@ xlim([1 12])
 for i = 1:length(x)
     text(x(i), y(i) + 0.05, sprintf('%.2f', y(i)), ...
         'HorizontalAlignment', 'center', 'FontSize', 9)
+end
+% Days in each month
+days = [31 28 31 30 31 30 31 31 30 31 30 31];
+
+% monthly energy production (kWh)
+system_efficiency = 0.80;
+energy_monthly = num_panels * panel_area .* y * panel_efficiency * system_efficiency .* days;
+
+x = 1:12;
+
+figure
+plot(x, energy_monthly, '-o', 'LineWidth', 2, 'MarkerSize', 7)
+grid on
+xticks(1:12)
+xticklabels({'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'})
+title('Estimated Monthly Energy Production')
+xlabel('Month')
+ylabel('Energy Produced (kWh)')
+xlim([1 12])
+
+% value labels above points like the last one
+for i = 1:length(x)
+    text(x(i), energy_monthly(i) + 0.05*max(energy_monthly), ...
+        sprintf('%.2f', energy_monthly(i)), ...
+        'HorizontalAlignment','center','FontSize',9)
 end
 %% Cost Breakdown of System
 

@@ -1,3 +1,7 @@
+%% Clear
+clc
+clear
+
 %% Solar Energy Optimization Tool
 % This script:
 % 1. Welcomes the user and explains the program
@@ -262,7 +266,7 @@ panel_rating = 400;
 cost_per_panel = Panel_cost_calc(state);
 
 % Calculate the number of panels that can be installed
-num_panels = calculateMaxPanels(roof_size, panel_area, budget, cost_per_panel);
+max_panels = calculateMaxPanels(roof_size, panel_area, budget, cost_per_panel);
 
 %% Energy Production Function
 % This function estimates annual energy production from the solar system
@@ -286,17 +290,79 @@ system_efficiency = .8;
 panel_efficiency = .2;
 
 % Calculate annual energy production
-annual_production = calculateEnergyProduction(num_panels, irradiance, panel_rating, system_efficiency);
+annual_production = calculateEnergyProduction(max_panels, irradiance, panel_rating, system_efficiency);
 annual_Savings = annual_production*.19;
-Total_spent = num_panels*cost_per_panel;
+Total_spent = max_panels*cost_per_panel;
 PBP = Total_spent/annual_Savings;
+
+%% Additional User Inputs for Financial Calculations
+
+% Ask the user for their annual electricity consumption
+annual_usage = input('Please enter your annual electricity usage (kWh): ');
+
+while annual_usage <= 0
+    annual_usage = input('Invalid value. Enter a positive annual electricity usage (kWh): ');
+end
+
+% Electricity price ($ per kWh)
+electricity_price = 0.19;
+
+% Export compensation for excess electricity
+export_rate = 0.08;
+
+% Solar system lifetime (years)
+system_lifetime = 25;
+
+%% Optimization
+% Select the system that provides the best balance of
+% lifetime savings and payback period.
+
+for p = 1:max_panels
+
+    % Energy production
+    production(p) = calculateEnergyProduction(p, irradiance, panel_rating, system_efficiency);
+
+    % Energy usage
+    energy_used = min(production(p), annual_usage);
+    energy_exported = max(0, production(p) - annual_usage);
+
+    % Annual savings
+    savings(p) = energy_used * electricity_price + energy_exported * export_rate;
+
+    % System cost
+    system_cost(p) = p * cost_per_panel;
+
+    % Payback
+    payback(p) = system_cost(p) / savings(p);
+
+    % Lifetime savings
+    lifetime_savings(p) = savings(p) * system_lifetime - system_cost(p);
+
+end
+
+%% Optimal System Selection
+% Choose the system that maximizes the ratio of
+% lifetime savings to payback period
+
+score = lifetime_savings ./ payback;
+
+[~, optimal_panels] = max(score);
+
+optimal_cost = system_cost(optimal_panels);
+optimal_savings = savings(optimal_panels);
+optimal_payback = payback(optimal_panels);
+optimal_lifetime = lifetime_savings(optimal_panels);
+optimal_production = production(optimal_panels);
+
 %% Plotting
 m = api_call.outputs.avg_dni.monthly;
 x = 1:12;
 y = [m.jan m.feb m.mar m.apr m.may m.jun ...
      m.jul m.aug m.sep m.oct m.nov m.dec];
 
-figure
+tiledlayout
+
+nexttile
 plot(x, y, '-o', 'LineWidth', 2, 'MarkerSize', 7)
 grid on
 xticks(1:12)
@@ -316,11 +382,12 @@ days = [31 28 31 30 31 30 31 31 30 31 30 31];
 
 % monthly energy production (kWh)
 system_efficiency = 0.80;
-energy_monthly = num_panels * panel_area .* y * panel_efficiency * system_efficiency .* days;
+panel_kw = panel_rating / 1000;
+energy_monthly = optimal_panels * panel_kw .* y * system_efficiency .* days;
 
 x = 1:12;
 
-figure
+nexttile
 plot(x, energy_monthly, '-o', 'LineWidth', 2, 'MarkerSize', 7)
 grid on
 xticks(1:12)
@@ -336,6 +403,38 @@ for i = 1:length(x)
         sprintf('%.2f', energy_monthly(i)), ...
         'HorizontalAlignment','center','FontSize',9)
 end
+
+nexttile
+yyaxis left
+plot(1:max_panels, lifetime_savings, 'b-', 'LineWidth', 2)
+ylabel('Lifetime Savings ($)')
+
+yyaxis right
+plot(1:max_panels, payback, 'r-', 'LineWidth', 2)
+ylabel('Payback Period (Years)')
+
+xlabel('Number of Panels')
+title('Solar System Financial Optimization')
+grid on
+
+hold on
+xline(optimal_panels, '--w', 'LineWidth', 1.5)
+legend('Lifetime Savings', 'Payback Period', 'Optimal System', 'Location', 'southeast')
+hold off
+
 %% Cost Breakdown of System
 
-fprintf("\n--------Savings Report---------\n\nTotal Spent: %.2f\nAnnual Energy Production: %.2f Kilowatts.\nNumber of Panels: %d\nAnnual Savings: $%.2f\n",Total_spent, annual_production,num_panels, annual_Savings)
+fprintf("\n-------- Solar System Recommendation --------\n")
+
+fprintf("Maximum Panels Allowed: %d\n", max_panels)
+fprintf("Optimal Panels: %d\n", optimal_panels)
+
+fprintf("\nSystem Size: %.2f kW\n", optimal_panels*panel_rating/1000)
+
+fprintf("\nAnnual Energy Production: %.2f kWh\n", optimal_production)
+
+fprintf("\nSystem Cost: $%.2f\n", optimal_cost)
+fprintf("Annual Savings: $%.2f\n", optimal_savings)
+
+fprintf("Payback Period: %.2f years\n", optimal_payback)
+fprintf("Lifetime Savings (25 yrs): $%.2f\n", optimal_lifetime)
